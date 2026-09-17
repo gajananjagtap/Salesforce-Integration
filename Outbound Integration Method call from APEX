@@ -1,0 +1,16 @@
+public class OutboundIntegration {
+    public static void callOut(){
+        Http h = new Http(); //Http is the sobject of salesforce
+        HttpRequest req = new HttpRequest(); //HttpRequest is also built in object of salesforce for integration
+        req.setEndpoint('https://www.themealdb.com/api/json/v1/1/search.php?s=aa'); //setEndpoint => we have set the endpoint url of curl in this
+        req.setMethod('GET'); // setMethod => from set method we have set the which method should be call via this callout
+        HttpResponse res = h.send(req);// h.send(req)=> it returns the response;
+        System.debug(res); 
+        System.debug(res.getStatusCode());
+        System.debug(res.getBody());
+    }
+}
+
+
+//Anonymous Window
+OutboundIntegration.callOut();
