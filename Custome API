@@ -1,0 +1,36 @@
+//Class
+
+@RestResource(urlMapping='/students/*')
+global class MyRestResource {
+
+    @HttpDelete
+    global static String doDelete() {
+        return 'DELETE method called from API';
+    }
+
+    @HttpGet
+    global static Student__c doGet() {
+        RestRequest req = RestContext.request;
+        System.debug(req);
+        String stId = req.requestURI;
+        System.debug(stId);
+        System.debug(stId.lastIndexOf('/'));
+        System.debug(stId.lastIndexOf('/')+1);
+        System.debug(stId.substring(stId.lastIndexOf('/')+1));
+        String studentId = stId.substring(stId.lastIndexOf('/')+1);
+        Student__c student = [select Id,Name,DOB__c From Student__c where Id=:studentId];
+        return student;
+    }
+
+    @HttpPost
+    global static String doPost() {
+        return 'POST method called from API';
+    }
+}
+
+
+//Postman Curl 
+
+curl --location 'https://orgfarm-0f5cf6c460-dev-ed.develop.my.salesforce.com/services/apexrest/students/a00fj00002V568LAAR' \
+--header 'Cookie: BrowserId=EoZvdLNYEfGdTnFcNlKjbw; CookieConsentPolicy=0:1; LSKey-c$CookieConsentPolicy=0:1' \
+--header 'Authorization: Bearer 00Dfj00000YTJmr!AQEAQGtgaF6sFDsRddtrcDf8gGJJSLCA0NFNpCZxcnAWJOMtt2svryKeYVYkt3Su7XZQvcvaYOfcY14hsILmzrnmG4Cl4BiT'
